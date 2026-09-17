@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РобоКод - Клуб робототехники и программирования</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --light-blue: #3b82f6;
+            --accent-orange: #f97316;
+            --dark-orange: #ea580c;
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .navbar-brand i {
+            color: var(--accent-orange);
+            margin-right: 0.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-orange) !important;
+        }
+
+        /* ===== HERO С КРУГЛЫМ ФОТО ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            color: white;
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+            opacity: 0.15;
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero .badge-years {
+            background: var(--accent-orange);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-circle {
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 15px rgba(249, 115, 22, 0.2);
+            position: relative;
+            animation: floatCircle 6s ease-in-out infinite;
+        }
+
+        .hero-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-circle::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 50%, rgba(30, 64, 175, 0.3) 100%);
+            pointer-events: none;
+        }
+
+        .hero-floating-badge {
+            position: absolute;
+            background: white;
+            color: var(--primary-blue);
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .hero-floating-badge i {
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+        }
+
+        .hero-badge-1 {
+            top: 10%;
+            right: -5%;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .hero-badge-2 {
+            bottom: 15%;
+            left: -5%;
+            animation: floatBadge 4s ease-in-out infinite 2s;
+        }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .btn-orange {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-orange:hover {
+            background: var(--dark-orange);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* ===== ПРОГРАММЫ С ДЕТАЛЯМИ ===== */
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-orange));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .program-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .program-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .program-card h3 {
+            color: var(--primary-blue);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .program-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .program-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px dashed #e5e7eb;
+        }
+
+        .program-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: #4b5563;
+            text-align: left;
+        }
+
+        .program-detail i {
+            color: var(--accent-orange);
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .program-detail strong {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .program-price {
+            margin-top: 1.25rem;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(30, 64, 175, 0.1));
+            padding: 0.75rem;
+            border-radius: 12px;
+        }
+
+        .program-price .price-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .program-price .price-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .program-price .price-value small {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        /* ===== РЕКЛАМНАЯ КАРУСЕЛЬ ===== */
+        .promo-carousel {
+            padding: 3rem 0;
+            background: var(--bg-light);
+        }
+
+        .promo-slide {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .promo-slide-1 { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #f97316 100%); }
+        .promo-slide-2 { background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #1e40af 100%); }
+        .promo-slide-3 { background: linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #3b82f6 100%); }
+
+        .promo-slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15), transparent 50%);
+        }
+
+        .promo-slide .promo-bg-image {
+            position: absolute;
+            right: -30px;
+            bottom: -30px;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            overflow: hidden;
+            opacity: 0.35;
+            border: 4px solid rgba(255,255,255,0.3);
+            transition: all 0.5s;
+        }
+
+        .promo-slide:hover .promo-bg-image {
+            opacity: 0.55;
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .promo-slide .promo-bg-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .promo-slide .promo-content {
+            position: relative;
+            z-index: 2;
+            max-width: 550px;
+        }
+
+        .promo-slide .promo-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        .promo-slide h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .promo-slide p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 1;
+            margin: 0 1rem;
+        }
+
+        .carousel-indicators [data-bs-target] {
+            background-color: var(--accent-orange);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* ===== НАША КОМАНДА ===== */
+        .team-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .team-carousel .carousel-item {
+            padding: 1rem 3rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+            border: 2px solid transparent;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.2);
+        }
+
+        .team-photo {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .team-info h4 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .team-subject {
+            color: var(--accent-orange);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .team-experience {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .team-carousel .carousel-control-prev,
+        .team-carousel .carousel-control-next {
+            background: var(--primary-blue);
+            width: 45px;
+            height: 45px;
+        }
+
+        .team-carousel .carousel-control-prev { left: -10px; }
+        .team-carousel .carousel-control-next { right: -10px; }
+
+        /* ===== ФОТО УЧЕНИКОВ ===== */
+        .photo-section {
+            background: var(--bg-light);
+            padding: 5rem 0;
+        }
+
+        .photo-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        /* ===== ЧЛЕНСКАЯ КНИЖКА ===== */
+        .coinbook-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e3a8a 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coinbook-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+            opacity: 0.2;
+            border-radius: 50%;
+        }
+
+        .coinbook-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .coinbook-content {
+            flex: 1;
+        }
+
+        .coinbook-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent-orange);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .coinbook-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .coinbook-content h2 span {
+            color: var(--accent-orange);
+        }
+
+        .coinbook-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .coinbook-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .coinbook-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .coinbook-feature i {
+            color: var(--accent-orange);
+            font-size: 1.5rem;
+        }
+
+        .coinbook-feature-text strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .coinbook-feature-text span {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .coinbook-image-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .coinbook-circle {
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 15px rgba(249, 115, 22, 0.25);
+            position: relative;
+            animation: floatCircle 6s ease-in-out infinite;
+        }
+
+        .coinbook-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .coinbook-coins {
+            position: absolute;
+            background: var(--accent-orange);
+            color: white;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5);
+            border: 4px solid white;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .coinbook-coins.top {
+            top: -20px;
+            right: -20px;
+        }
+
+        .coinbook-coins.bottom {
+            bottom: -10px;
+            left: -20px;
+            animation-delay: 2s;
+        }
+
+        .coinbook-coins i {
+            font-size: 1.5rem;
+        }
+
+        .coinbook-coins span {
+            font-size: 0.7rem;
+            margin-top: 2px;
+        }
+
+        /* ===== ОТЗЫВЫ (СМЕШАННЫЕ) ===== */
+        .reviews-section {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+            border-top: 4px solid var(--accent-orange);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .review-card.parent-review {
+            border-top-color: var(--primary-blue);
+        }
+
+        .review-quote-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            opacity: 0.2;
+        }
+
+        .review-card.parent-review .review-quote-icon {
+            color: var(--primary-blue);
+        }
+
+        .review-stars {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .review-text {
+            color: #374151;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--light-blue), var(--primary-blue));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .review-card.parent-review .review-avatar {
+            background: linear-gradient(135deg, var(--accent-orange), var(--dark-orange));
+        }
+
+        .review-author-info strong {
+            display: block;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        .review-author-info span {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .review-badge {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .badge-parent {
+            background: rgba(30, 64, 175, 0.1);
+            color: var(--primary-blue);
+        }
+
+        .badge-child {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--accent-orange);
+        }
+
+        .video-review-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-wrapper iframe,
+        .video-wrapper .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-placeholder:hover {
+            background: linear-gradient(135deg, var(--accent-orange), var(--dark-orange));
+        }
+
+        .video-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-review-info {
+            padding: 1.2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-review-info h5 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            font-size: 1.05rem;
+        }
+
+        .video-review-info p {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .video-platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(30, 64, 175, 0.1);
+            color: var(--primary-blue);
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            align-self: flex-start;
+        }
+
+        /* ===== ФИЛИАЛЫ + КАРТА ===== */
+        .branches-section {
+            padding: 5rem 0;
+        }
+
+        .branch-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border-left: 5px solid var(--accent-orange);
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+
+        .branch-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .branch-card i {
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        .branch-card h4 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .map-wrapper {
+            margin-top: 3rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 4px solid white;
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+            display: block;
+        }
+
+        /* ===== КОНТАКТЫ ===== */
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            color: white;
+            padding: 5rem 0;
+        }
+
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            color: #1f2937;
+        }
+
+        .contact-form h3 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--light-blue);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-submit {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 10px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--dark-orange);
+            color: white;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* ===== ПЛАВАЮЩАЯ КНОПКА ===== */
+        .floating-callback {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--accent-orange);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5);
+            transition: all 0.3s;
+            animation: pulseGlow 2s infinite;
+        }
+
+        .floating-callback:hover {
+            background: var(--dark-orange);
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .floating-callback i {
+            font-size: 1.3rem;
+            animation: ring 1.5s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5), 0 0 0 0 rgba(249, 115, 22, 0.6);
+            }
+            50% {
+                box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5), 0 0 0 15px rgba(249, 115, 22, 0);
+            }
+        }
+
+        @keyframes ring {
+            0%, 50%, 100% { transform: rotate(0); }
+            10%, 30% { transform: rotate(-15deg); }
+            20%, 40% { transform: rotate(15deg); }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero-circle { width: 320px; height: 320px; }
+            .coinbook-wrapper { flex-direction: column-reverse; text-align: center; }
+            .coinbook-circle { width: 300px; height: 300px; }
+            .coinbook-features { grid-template-columns: 1fr; }
+            .coinbook-content h2 { font-size: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .hero-circle { width: 260px; height: 260px; }
+            .hero-floating-badge { display: none; }
+            .section-title { font-size: 1.8rem; }
+            .promo-slide h2 { font-size: 1.5rem; }
+            .promo-slide p { font-size: 1rem; }
+            .promo-slide { height: 280px; }
+            .promo-slide .promo-bg-image { width: 180px; height: 180px; right: -40px; bottom: -40px; opacity: 0.25; }
+            .floating-callback {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                padding: 0;
+                border-radius: 50%;
+                justify-content: center;
+            }
+            .floating-callback .callback-text { display: none; }
+            .floating-callback i { font-size: 1.5rem; }
+            .coinbook-circle { width: 240px; height: 240px; }
+            .coinbook-coins { width: 70px; height: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-robot"></i>
+                РобоКод
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#programs">Программы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#team">Команда</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#photos">Фото</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#reviews">Отзывы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#branches">Филиалы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacts">Контакты</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero с круглым фото -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="badge-years">
+                        <i class="bi bi-trophy-fill"></i> Мы в деле уже 7 лет!
+                    </div>
+                    <h1>Клуб робототехники и программирования для детей</h1>
+                    <p class="lead mb-4">Обучаем детей от 6 до 16 лет современным технологиям через игру и творчество</p>
+                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#trialModal">
+                        <i class="bi bi-calendar-check"></i> Записаться на пробное занятие
+                    </button>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="hero-image-wrapper">
+                        <div class="hero-circle">
+                            <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1a1b2c3d4-children-programming-robot.png" alt="Дети программируют и запускают роботов">
+                        </div>
+                        <div class="hero-floating-badge hero-badge-1">
+                            <i class="bi bi-robot"></i> 500+ роботов
+                        </div>
+                        <div class="hero-floating-badge hero-badge-2">
+                            <i class="bi bi-code-slash"></i> 1000+ учеников
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Рекламная карусель с фоновыми картинками -->
+    <section class="promo-carousel">
+        <div class="container">
+            <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2"></button>
+                </div>
+                <div class="carousel-inner" style="border-radius: 20px;">
+                    <div class="carousel-item active">
+                        <div class="promo-slide promo-slide-1">
+                            <div class="promo-bg-image">
+                                <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1b1c2d3e4-it-code-laptop.png" alt="IT и код">
+                            </div>
+                            <div class="promo-content">
+                                <div class="promo-icon"><i class="bi bi-rocket-takeoff-fill"></i></div>
+                                <h2>Первый вход в IT</h2>
+                                <p>Открой мир технологий вместе с нами — от первых строк кода до собственных проектов</p>
+                                <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#trialModal">Записаться</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="promo-slide promo-slide-2">
+                            <div class="promo-bg-image">
+                                <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1c2d3e4f5-game-controller.png" alt="Игры и геймпад">
+                            </div>
+                            <div class="promo-content">
+                                <div class="promo-icon"><i class="bi bi-controller"></i></div>
+                                <h2>Не играй — а создавай!</h2>
+                                <p>Преврати любимые игры в свои проекты. Roblox, Unity, Python — стань создателем</p>
+                                <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#trialModal">Попробовать</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="promo-slide promo-slide-3">
+                            <div class="promo-bg-image">
+                                <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1d3e4f5a6-lego-robot.png" alt="LEGO робот">
+                            </div>
+                            <div class="promo-content">
+                                <div class="promo-icon"><i class="bi bi-gear-wide-connected"></i></div>
+                                <h2>Мой первый робот</h2>
+                                <p>LEGO WeDo и Mindstorms — конструируй, программируй и оживляй своих роботов</p>
+                                <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#trialModal">Начать</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Программы обучения с деталями -->
+    <section id="programs" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Чем мы занимаемся</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon"><i class="bi bi-boxes"></i></div>
+                        <h3>LEGO WeDo</h3>
+                        <p>Первые шаги в робототехнике. Конструирование и простое программирование</p>
+                        <div class="program-details">
+                            <div class="program-detail"><i class="bi bi-person-hearts"></i> <span><strong>6-8</strong> лет</span></div>
+                            <div class="program-detail"><i class="bi bi-clock"></i> <span><strong>60</strong> мин</span></div>
+                            <div class="program-detail"><i class="bi bi-calendar-week"></i> <span><strong>1</strong> р/нед</span></div>
+                            <div class="program-detail"><i class="bi bi-people"></i> <span>до <strong>8</strong> чел</span></div>
+                        </div>
+                        <div class="program-price">
+                            <div class="price-label">Абонемент на месяц</div>
+                            <div class="price-value">4 500 ₽ <small>/ 4 занятия</small></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon"><i class="bi bi-gear-wide-connected"></i></div>
+                        <h3>LEGO Mindstorms</h3>
+                        <p>Продвинутая робототехника. Создание сложных роботов и алгоритмов</p>
+                        <div class="program-details">
+                            <div class="program-detail"><i class="bi bi-person-hearts"></i> <span><strong>9-13</strong> лет</span></div>
+                            <div class="program-detail"><i class="bi bi-clock"></i> <span><strong>90</strong> мин</span></div>
+                            <div class="program-detail"><i class="bi bi-calendar-week"></i> <span><strong>1</strong> р/нед</span></div>
+                            <div class="program-detail"><i class="bi bi-people"></i> <span>до <strong>6</strong> чел</span></div>
+                        </div>
+                        <div class="program-price">
+                            <div class="price-label">Абонемент на месяц</div>
+                            <div class="price-value">6 200 ₽ <small>/ 4 занятия</small></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon"><i class="bi bi-box"></i></div>
+                        <h3>3D в Blender</h3>
+                        <p>Создание трёхмерных моделей и анимации в профессиональном редакторе</p>
+                        <div class="program-details">
+                            <div class="program-detail"><i class="bi bi-person-hearts"></i> <span><strong>10-16</strong> лет</span></div>
+                            <div class="program-detail"><i class="bi bi-clock"></i> <span><strong>90</strong> мин</span></div>
+                            <div class="program-detail"><i class="bi bi-calendar-week"></i> <span><strong>1</strong> р/нед</span></div>
+                            <div class="program-detail"><i class="bi bi-people"></i> <span>до <strong>6</strong> чел</span></div>
+                        </div>
+                        <div class="program-price">
+                            <div class="price-label">Абонемент на месяц</div>
+                            <div class="price-value">5 800 ₽ <small>/ 4 занятия</small></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon"><i class="bi bi-code-slash"></i></div>
+                        <h3>Python</h3>
+                        <p>Изучение одного из самых популярных языков программирования</p>
+                        <div class="program-details">
+                            <div class="program-detail"><i class="bi bi-person-hearts"></i> <span><strong>11-16</strong> лет</span></div>
+                            <div class="program-detail"><i class="bi bi-clock"></i> <span><strong>90</strong> мин</span></div>
+                            <div class="program-detail"><i class="bi bi-calendar-week"></i> <span><strong>2</strong> р/нед</span></div>
+                            <div class="program-detail"><i class="bi bi-people"></i> <span>до <strong>8</strong> чел</span></div>
+                        </div>
+                        <div class="program-price">
+                            <div class="price-label">Абонемент на месяц</div>
+                            <div class="price-value">7 500 ₽ <small>/ 8 занятий</small></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon"><i class="bi bi-controller"></i></div>
+                        <h3>Roblox и Unity</h3>
+                        <p>Создание собственных игр и виртуальных миров — геймдизайн для детей</p>
+                        <div class="program-details">
+                            <div class="program-detail"><i class="bi bi-person-hearts"></i> <span><strong>10-15</strong> лет</span></div>
+                            <div class="program-detail"><i class="bi bi-clock"></i> <span><strong>90</strong> мин</span></div>
+                            <div class="program-detail"><i class="bi bi-calendar-week"></i> <span><strong>1</strong> р/нед</span></div>
+                            <div class="program-detail"><i class="bi bi-people"></i> <span>до <strong>8</strong> чел</span></div>
+                        </div>
+                        <div class="program-price">
+                            <div class="price-label">Абонемент на месяц</div>
+                            <div class="price-value">6 000 ₽ <small>/ 4 занятия</small></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon"><i class="bi bi-puzzle-fill"></i></div>
+                        <h3>Scratch</h3>
+                        <p>Визуальное программирование для самых маленьких. Просто и увлекательно!</p>
+                        <div class="program-details">
+                            <div class="program-detail"><i class="bi bi-person-hearts"></i> <span><strong>7-10</strong> лет</span></div>
+                            <div class="program-detail"><i class="bi bi-clock"></i> <span><strong>60</strong> мин</span></div>
+                            <div class="program-detail"><i class="bi bi-calendar-week"></i> <span><strong>1</strong> р/нед</span></div>
+                            <div class="program-detail"><i class="bi bi-people"></i> <span>до <strong>8</strong> чел</span></div>
+                        </div>
+                        <div class="program-price">
+                            <div class="price-label">Абонемент на месяц</div>
+                            <div class="price-value">4 800 ₽ <small>/ 4 занятия</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Наша команда -->
+    <section id="team" class="team-section">
+        <div class="container">
+            <h2 class="section-title">Наша команда</h2>
+            <p class="text-center text-muted mb-5" style="max-width: 700px; margin: 0 auto 3rem;">
+                Опытные наставники, которые любят своё дело и умеют находить подход к каждому ученику
+            </p>
+            <div id="teamCarousel" class="carousel slide team-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-card">
+                                    <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1a0b2e5a3-teacher-alexey.png" alt="Алексей Петров" class="team-photo">
+                                    <div class="team-info">
+                                        <h4>Алексей Петров</h4>
+                                        <div class="team-subject"><i class="bi bi-gear-wide-connected"></i> LEGO Mindstorms, Робототехника</div>
+                                        <div class="team-experience"><i class="bi bi-award-fill"></i> С нами 6 лет</div>
+                                        <p class="team-description">Инженер-робототехник. Победитель региональных соревнований WRO. Умеет увлечь даже самых скептичных ребят.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-card">
+                                    <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1b1c3f6b4-teacher-maria.png" alt="Мария Иванова" class="team-photo">
+                                    <div class="team-info">
+                                        <h4>Мария Иванова</h4>
+                                        <div class="team-subject"><i class="bi bi-code-slash"></i> Python, Scratch</div>
+                                        <div class="team-experience"><i class="bi bi-award-fill"></i> С нами 5 лет</div>
+                                        <p class="team-description">Выпускница МГТУ. Превращает сложные алгоритмы в увлекательные истории. Ведёт группы от 6 до 14 лет.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-card">
+                                    <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1c2d4a7c5-teacher-dmitry.png" alt="Дмитрий Соколов" class="team-photo">
+                                    <div class="team-info">
+                                        <h4>Дмитрий Соколов</h4>
+                                        <div class="team-subject"><i class="bi bi-controller"></i> Roblox, Unity, Геймдизайн</div>
+                                        <div class="team-experience"><i class="bi bi-award-fill"></i> С нами 4 года</div>
+                                        <p class="team-description">Действующий game-девелопер. Его ученики уже публикуют игры в Roblox с тысячами игроков.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row g-4 justify-content-center">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-card">
+                                    <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1d3e5b8d6-teacher-elena.png" alt="Елена Смирнова" class="team-photo">
+                                    <div class="team-info">
+                                        <h4>Елена Смирнова</h4>
+                                        <div class="team-subject"><i class="bi bi-box"></i> 3D-моделирование, Blender</div>
+                                        <div class="team-experience"><i class="bi bi-award-fill"></i> С нами 3 года</div>
+                                        <p class="team-description">3D-художник, работает в анимационной студии. Учит детей видеть мир в объёме и создавать свои миры.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-card">
+                                    <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1e4f6c9e7-teacher-igor.png" alt="Игорь Волков" class="team-photo">
+                                    <div class="team-info">
+                                        <h4>Игорь Волков</h4>
+                                        <div class="team-subject"><i class="bi bi-boxes"></i> LEGO WeDo, Scratch</div>
+                                        <div class="team-experience"><i class="bi bi-award-fill"></i> С нами 7 лет</div>
+                                        <p class="team-description">Педагог с 15-летним стажем. Находит ключик к каждому ребёнку. Ведёт самые маленькие группы.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-card">
+                                    <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1f5a7d0f8-teacher-anna.png" alt="Анна Кузнецова" class="team-photo">
+                                    <div class="team-info">
+                                        <h4>Анна Кузнецова</h4>
+                                        <div class="team-subject"><i class="bi bi-code-slash"></i> Python, Алгоритмы</div>
+                                        <div class="team-experience"><i class="bi bi-award-fill"></i> С нами 2 года</div>
+                                        <p class="team-description">Backend-разработчик. Готовит ребят к олимпиадам по программированию и поступлению в IT-вузы.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#teamCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#teamCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Фото учеников -->
+    <section id="photos" class="photo-section">
+        <div class="container">
+            <h2 class="section-title">Наши ученики в деле</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="photo-card">
+                        <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/18d0dcee1-a379-4bab-813d-6b0e64ce87b5.png" alt="Дети работают с LEGO роботами">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="photo-card">
+                        <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/19eeb83a2-f537-485c-9358-67ca39f054dd.png" alt="Дети программируют">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Членская книжка с олимкойнами -->
+    <section class="coinbook-section">
+        <div class="container">
+            <div class="coinbook-wrapper">
+                <div class="coinbook-content">
+                    <div class="coinbook-badge">
+                        <i class="bi bi-bookmark-star-fill"></i> Новая программа лояльности
+                    </div>
+                    <h2>Членская книжка <span>«ОлимКойн»</span></h2>
+                    <p>
+                        За успехи на занятиях, победы в соревнованиях и выполнение челленджей наши ученики получают 
+                        <strong>олимкойны</strong> — внутреннюю валюту клуба РобоКод! Копи олимкойны и меняй их на крутые призы, 
+                        мерч и бонусы.
+                    </p>
+                    <div class="coinbook-features">
+                        <div class="coinbook-feature">
+                            <i class="bi bi-coin"></i>
+                            <div class="coinbook-feature-text">
+                                <strong>За каждое занятие</strong>
+                                <span>до 10 олимкойнов</span>
+                            </div>
+                        </div>
+                        <div class="coinbook-feature">
+                            <i class="bi bi-trophy"></i>
+                            <div class="coinbook-feature-text">
+                                <strong>За победы</strong>
+                                <span>до 100 олимкойнов</span>
+                            </div>
+                        </div>
+                        <div class="coinbook-feature">
+                            <i class="bi bi-gift"></i>
+                            <div class="coinbook-feature-text">
+                                <strong>Крутой мерч</strong>
+                                <span>футболки, значки, наклейки</span>
+                            </div>
+                        </div>
+                        <div class="coinbook-feature">
+                            <i class="bi bi-percent"></i>
+                            <div class="coinbook-feature-text">
+                                <strong>Скидки на абонеме</strong>
+                                <span>до 20% за олимкойны</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-orange">
+                        <i class="bi bi-book-half"></i> Получить книжку бесплатно
+                    </button>
+                </div>
+                <div class="coinbook-image-wrapper">
+                    <div class="coinbook-circle">
+                        <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/1g6b8e1a9-coinbook-olimkoyn.png" alt="Членская книжка ОлимКойн">
+                    </div>
+                    <div class="coinbook-coins top">
+                        <i class="bi bi-coin"></i>
+                        <span>+50</span>
+                    </div>
+                    <div class="coinbook-coins bottom">
+                        <i class="bi bi-star-fill"></i>
+                        <span>+25</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы (смешанные) -->
+    <section id="reviews" class="reviews-section">
+        <div class="container">
+            <h2 class="section-title">Отзывы наших учеников и родителей</h2>
+            <p class="text-center text-muted mb-5">Честные истории тех, кто уже с нами</p>
+
+            <div class="row g-4">
+                <!-- Текстовый отзыв родителя -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="review-card parent-review">
+                        <i class="bi bi-quote review-quote-icon"></i>
+                        <div class="review-stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="review-text">«Сын ходит уже второй год на Mindstorms. Результат превзошёл все ожидания — ребёнок сам садится за компьютер не играть, а программировать. Огромное спасибо наставникам!»</p>
+                        <div class="review-author">
+                            <div class="review-avatar">ЕС</div>
+                            <div class="review-author-info">
+                                <strong>Елена Смирнова</strong>
+                                <span>мама Артёма, 11 лет</span>
+                            </div>
+                            <span class="review-badge badge-parent">Родитель</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Видео-отзыв -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="video-review-card">
+                        <div class="video-wrapper">
+                            <div class="video-placeholder" data-video="vk1">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Смотреть отзыв</span>
+                            </div>
+                        </div>
+                        <div class="video-review-info">
+                            <h5>Артём, 11 лет</h5>
+                            <p>Рассказывает о своём первом роботе на Mindstorms</p>
+                            <div class="video-platform-badge">
+                                <i class="bi bi-play-btn-fill"></i> VK Видео
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Текстовый отзыв ученика -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="review-card">
+                        <i class="bi bi-quote review-quote-icon"></i>
+                        <div class="review-stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="review-text">«Я сделал свою первую игру в Roblox и показал её друзьям — они были в шоке! Теперь хочу выучить Python и делать серьёзные проекты. Наставник Дмитрий — лучший!»</p>
+                        <div class="review-author">
+                            <div class="review-avatar">МК</div>
+                            <div class="review-author-info">
+                                <strong>Максим К.</strong>
+                                <span>ученик, 13 лет</span>
+                            </div>
+                            <span class="review-badge badge-child">Ученик</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Видео-отзыв -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="video-review-card">
+                        <div class="video-wrapper">
+                            <div class="video-placeholder" data-video="vk2">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Смотреть отзыв</span>
+                            </div>
+                        </div>
+                        <div class="video-review-info">
+                            <h5>Семья Ивановых</h5>
+                            <p>Два сына учатся в клубе уже 3 года</p>
+                            <div class="video-platform-badge">
+                                <i class="bi bi-play-btn-fill"></i> VK Видео
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Текстовый отзыв родителя -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="review-card parent-review">
+                        <i class="bi bi-quote review-quote-icon"></i>
+                        <div class="review-stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="review-text">«Дочка начала со Scratch в 7 лет, сейчас перешла на Python. Преподаватели находят подход, занятия проходят в дружеской атмосфере. Дочь с удовольствием бежит на занятия!»</p>
+                        <div class="review-author">
+                            <div class="review-avatar">АВ</div>
+                            <div class="review-author-info">
+                                <strong>Андрей Волков</strong>
+                                <span>папа Софии, 9 лет</span>
+                            </div>
+                            <span class="review-badge badge-parent">Родитель</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Текстовый отзыв ученика -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="review-card">
+                        <i class="bi bi-quote review-quote-icon"></i>
+                        <div class="review-stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="review-text">«Мне очень нравится моделировать в Blender! Я уже сделал 3D-модель своего кота и распечатал её на принтере. Елена Сергеевна объясняет так, что всё понятно с первого раза.»</p>
+                        <div class="review-author">
+                            <div class="review-avatar">ДЛ</div>
+                            <div class="review-author-info">
+                                <strong>Даниил Л.</strong>
+                                <span>ученик, 12 лет</span>
+                            </div>
+                            <span class="review-badge badge-child">Ученик</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Видео-отзыв -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="video-review-card">
+                        <div class="video-wrapper">
+                            <div class="video-placeholder" data-video="vk3">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Смотреть отзыв</span>
+                            </div>
+                        </div>
+                        <div class="video-review-info">
+                            <h5>Марина Петровна</h5>
+                            <p>Мама ученицы, филиал Обухово</p>
+                            <div class="video-platform-badge">
+                                <i class="bi bi-play-btn-fill"></i> VK Видео
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Текстовый отзыв родителя -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="review-card parent-review">
+                        <i class="bi bi-quote review-quote-icon"></i>
+                        <div class="review-stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="review-text">«Записали младшего на LEGO WeDo — он в восторге! Каждый вечер показывает, что нового собрал. Очень удобно, что филиал в Монино, рядом с домом. Рекомендую всем!»</p>
+                        <div class="review-author">
+                            <div class="review-avatar">ОП</div>
+                            <div class="review-author-info">
+                                <strong>Ольга Павлова</strong>
+                                <span>мама Кирилла, 7 лет</span>
+                            </div>
+                            <span class="review-badge badge-parent">Родитель</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Видео-отзыв -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="video-review-card">
+                        <div class="video-wrapper">
+                            <div class="video-placeholder" data-video="vk4">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Смотреть отзыв</span>
+                            </div>
+                        </div>
+                        <div class="video-review-info">
+                            <h5>София, 9 лет</h5>
+                            <p>Показывает свою первую игру на Scratch</p>
+                            <div class="video-platform-badge">
+                                <i class="bi bi-play-btn-fill"></i> VK Видео
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Текстовый отзыв ученика -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="review-card">
+                        <i class="bi bi-quote review-quote-icon"></i>
+                        <div class="review-stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="review-text">«Я готовлюсь к олимпиаде по программированию с Анной Кузнецовой. Уже занял 2 место на городской олимпиаде! Здесь реально учат, а не просто "играют в компьютер".»</p>
+                        <div class="review-author">
+                            <div class="review-avatar">ИФ</div>
+                            <div class="review-author-info">
+                                <strong>Илья Ф.</strong>
+                                <span>ученик, 15 лет</span>
+                            </div>
+                            <span class="review-badge badge-child">Ученик</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Видео-отзыв -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="video-review-card">
+                        <div class="video-wrapper">
+                            <div class="video-placeholder" data-video="vk5">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Смотреть отзыв</span>
+                            </div>
+                        </div>
+                        <div class="video-review-info">
+                            <h5>Семья Ковалёвых</h5>
+                            <p>Три ребёнка в разных группах</p>
+                            <div class="video-platform-badge">
+                                <i class="bi bi-play-btn-fill"></i> VK Видео
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Видео-отзыв -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="video-review-card">
+                        <div class="video-wrapper">
+                            <div class="video-placeholder" data-video="vk6">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span>Смотреть отзыв</span>
+                            </div>
+                        </div>
+                        <div class="video-review-info">
+                            <h5>Илья, 15 лет</h5>
+                            <p>Призёр олимпиады по Python</p>
+                            <div class="video-platform-badge">
+                                <i class="bi bi-play-btn-fill"></i> VK Видео
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Филиалы + Яндекс карта -->
+    <section id="branches" class="branches-section">
+        <div class="container">
+            <h2 class="section-title">Наши филиалы</h2>
+            <div class="row g-4 mb-2">
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Монино</h4>
+                        <p class="text-muted mb-0">ул. Генерала Лизюкова, 1</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Обухово</h4>
+                        <p class="text-muted mb-0">ул. Советская, 15</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Лукино-Варьино</h4>
+                        <p class="text-muted mb-0">ул. Центральная, 8</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Лосино-Петровский</h4>
+                        <p class="text-muted mb-0">ул. Октябрьская, 22</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Яндекс Карта -->
+            <div class="map-wrapper">
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=39.65%2C55.82&z=11&pt=39.55%2C55.83%2Cpm2rdm~39.65%2C55.81%2Cpm2rdm~39.75%2C55.82%2Cpm2rdm~39.85%2C55.84%2Cpm2rdm&lang=ru" allowfullscreen="true"></iframe>
+            </div>
+            <p class="text-center text-muted mt-3">
+                <i class="bi bi-info-circle"></i> Точные адреса и схему проезда уточняйте по телефону или в мессенджерах
+            </p>
+        </div>
+    </section>
+
+    <!-- Контакты и форма -->
+    <section id="contacts" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <h3>Свяжитесь с нами</h3>
+                        <div class="contact-item">
+                            <i class="bi bi-telephone-fill"></i>
+                            <div>
+                                <strong>Телефон</strong><br>
+                                +7 (495) 123-45-67
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-envelope-fill"></i>
+                            <div>
+                                <strong>Email</strong><br>
+                                info@robocode.ru
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-clock-fill"></i>
+                            <div>
+                                <strong>Время работы</strong><br>
+                                Пн-Вс: 9:00 - 20:00
+                            </div>
+                        </div>
+                        <div class="social-links mt-4">
+                            <a href="#"><i class="bi bi-whatsapp"></i></a>
+                            <a href="#"><i class="bi bi-telegram"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                            <a href="#"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="contact-form">
+                        <h3>Форма обратной связи</h3>
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ваше имя</label>
+                                    <input type="text" class="form-control" placeholder="Иван Иванов" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Телефон</label>
+                                    <input type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="example@mail.ru" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Возраст ребёнка</label>
+                                <select class="form-select">
+                                    <option>6-7 лет</option>
+                                    <option>8-9 лет</option>
+                                    <option>10-11 лет</option>
+                                    <option>12-13 лет</option>
+                                    <option>14-16 лет</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Сообщение</label>
+                                <textarea class="form-control" rows="3" placeholder="Ваш вопрос или комментарий"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-submit">
+                                <i class="bi bi-send-fill"></i> Отправить сообщение
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="mb-0">&copy; 2026 РобоКод. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Плавающая кнопка "Заказать звонок" -->
+    <button class="floating-callback" data-bs-toggle="modal" data-bs-target="#callbackModal">
+        <i class="bi bi-telephone-fill"></i>
+        <span class="callback-text">Заказать звонок</span>
+    </button>
+
+    <!-- Модальное окно записи на пробное -->
+    <div class="modal fade" id="trialModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--primary-blue); color: white;">
+                    <h5 class="modal-title">Запись на пробное занятие</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="trialForm">
+                        <div class="mb-3">
+                            <label class="form-label">Имя родителя</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Возраст ребёнка</label>
+                            <select class="form-select">
+                                <option>6-7 лет</option>
+                                <option>8-9 лет</option>
+                                <option>10-11 лет</option>
+                                <option>12-13 лет</option>
+                                <option>14-16 лет</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Филиал</label>
+                            <select class="form-select">
+                                <option>Монино</option>
+                                <option>Обухово</option>
+                                <option>Лукино-Варьино</option>
+                                <option>Лосино-Петровский</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100">Записаться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно "Заказать звонок" -->
+    <div class="modal fade" id="callbackModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--accent-orange); color: white;">
+                    <h5 class="modal-title"><i class="bi bi-telephone-fill"></i> Заказать обратный звонок</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3">Оставьте номер телефона, и мы перезвоним вам в течение 15 минут!</p>
+                    <form id="callbackForm">
+                        <div class="mb-3">
+                            <label class="form-label">Ваше имя</label>
+                            <input type="text" class="form-control" placeholder="Как к вам обращаться?" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Удобное время для звонка</label>
+                            <select class="form-select">
+                                <option>Как можно скорее</option>
+                                <option>Утро (9:00 - 12:00)</option>
+                                <option>День (12:00 - 17:00)</option>
+                                <option>Вечер (17:00 - 20:00)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100">
+                            <i class="bi bi-telephone-forward"></i> Жду звонка
+                        </button>
+                        <small class="text-muted d-block mt-2 text-center">
+                            Нажимая кнопку, вы соглашаетесь с политикой обработки персональных данных
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Клик по видео-плейсхолдеру
+        document.querySelectorAll('.video-placeholder').forEach(ph => {
+            ph.addEventListener('click', function() {
+                alert('Здесь будет видео с VK Видео. Вставьте iframe-код с vkvideo.ru вместо плейсхолдера.');
+            });
+        });
+
+        // Формы
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+
+        document.getElementById('trialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Отлично! Вы записаны на пробное занятие. Мы перезвоним вам для подтверждения.');
+            this.reset();
+            bootstrap.Modal.getInstance(document.getElementById('trialModal')).hide();
+        });
+
+        document.getElementById('callbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо! Мы перезвоним вам в ближайшее время.');
+            this.reset();
+            bootstrap.Modal.getInstance(document.getElementById('callbackModal')).hide();
+        });
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

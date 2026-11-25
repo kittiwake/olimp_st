@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>КодоКлуб — Детский ИТ-клуб</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.css">
+<style>
+  * { font-family: 'Inter', system-ui, sans-serif; }
+  body { background: #f5f3ff; }
+  .gradient-bg { background: linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #f59e0b 100%); }
+  .gradient-text { background: linear-gradient(135deg, #7c3aed, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15); }
+  .star { cursor: pointer; transition: all 0.2s; user-select: none; }
+  .star:hover { transform: scale(1.2); }
+  .star.active { color: #f59e0b; }
+  .star.inactive { color: #e5e7eb; }
+  .nav-link { position: relative; transition: color 0.2s; }
+  .nav-link.active::after { content: ''; position: absolute; bottom: -6px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #7c3aed, #ec4899); border-radius: 3px; }
+  .fade-in { animation: fadeIn 0.4s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .pulse-dot { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .calendar-day { aspect-ratio: 1; transition: all 0.2s; }
+  .calendar-day:hover { background: #ede9fe; }
+  .calendar-day.has-event { background: linear-gradient(135deg, #ddd6fe, #fce7f3); font-weight: 600; }
+  .calendar-day.today { box-shadow: inset 0 0 0 2px #7c3aed; }
+  .modal-backdrop { background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+  .shop-item-bg { background: linear-gradient(135deg, var(--from), var(--to)); }
+  .role-chip { transition: all 0.2s; cursor: pointer; }
+  .role-chip.active { background: white; color: #7c3aed; box-shadow: 0 4px 12px rgba(124,58,237,0.25); }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- HEADER -->
+<header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-purple-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a href="#/" class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white text-xl">🚀</div>
+        <div>
+          <div class="font-bold text-lg leading-none gradient-text">КодоКлуб</div>
+          <div class="text-[10px] text-gray-500 leading-none mt-0.5">детский ИТ-клуб</div>
+        </div>
+      </a>
+      <nav id="nav-links" class="hidden md:flex items-center gap-7"></nav>
+      <div class="flex items-center gap-3">
+        <div id="role-switcher" class="hidden sm:flex items-center gap-1 bg-purple-50 p-1 rounded-full"></div>
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-purple-50">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden pb-4"></div>
+  </div>
+</header>
+
+<main id="app" class="max-w-7xl mx-auto px-4 sm:px-6 py-6 min-h-[calc(100vh-128px)]"></main>
+
+<footer class="bg-white border-t border-purple-100 mt-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center text-white">🚀</div>
+          <span class="font-bold gradient-text">КодоКлуб</span>
+        </div>
+        <p class="text-sm text-gray-600">Учим детей создавать будущее через технологии с 2018 года.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-3">Направления</h4>
+        <ul class="text-sm text-gray-600 space-y-1.5">
+          <li>Программирование</li><li>Робототехника</li><li>3D-моделирование</li><li>GameDev</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-3">Контакты</h4>
+        <ul class="text-sm text-gray-600 space-y-1.5">
+          <li>📞 +7 (999) 123-45-67</li><li>✉️ hello@kodoklub.ru</li><li>📍 ул. Технологическая, 42</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-3">Мы в соцсетях</h4>
+        <div class="flex gap-2">
+          <a class="w-9 h-9 rounded-lg bg-purple-50 hover:bg-purple-100 flex items-center justify-center cursor-pointer">📱</a>
+          <a class="w-9 h-9 rounded-lg bg-purple-50 hover:bg-purple-100 flex items-center justify-center cursor-pointer">💬</a>
+          <a class="w-9 h-9 rounded-lg bg-purple-50 hover:bg-purple-100 flex items-center justify-center cursor-pointer">📷</a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-purple-100 mt-6 pt-6 text-center text-xs text-gray-500">© 2026 КодоКлуб. Все права защищены.</div>
+  </div>
+</footer>
+
+<div id="modal-root"></div>
+
+<script>
+// ============ STATE ============
+const state = {
+  role: localStorage.getItem('role') || 'student', // guest | student | master
+  currentPage: '/',
+  points: parseInt(localStorage.getItem('points') || '24'),
+  purchases: JSON.parse(localStorage.getItem('purchases') || '[]'),
+};
+
+// ============ MOCK DATA ============
+const news = [
+  { id: 1, tag: 'Событие', tagColor: 'bg-pink-100 text-pink-700', title: 'Открытый хакатон «Будущее рядом»', date: '22 ноября 2026', excerpt: 'Приглашаем всех учеников клуба принять участие в большом хакатоне. Призы, мерч и море впечатлений!', emoji: '🏆' },
+  { id: 2, tag: 'Новый курс', tagColor: 'bg-purple-100 text-purple-700', title: 'Стартует набор на курс по Python', date: '18 ноября 2026', excerpt: 'С 5 декабря открывается новый поток для ребят 10–14 лет. Первые 2 занятия — бесплатно.', emoji: '🐍' },
+  { id: 3, tag: 'Победа', tagColor: 'bg-amber-100 text-amber-700', title: 'Наши ученики — призёры олимпиады!', date: '10 ноября 2026', excerpt: 'Команда КодоКлуба заняла 2 место на городской олимпиаде по робототехнике. Поздравляем!', emoji: '🥈' },
+  { id: 4, tag: 'Мастер-класс', tagColor: 'bg-emerald-100 text-emerald-700', title: 'МК по созданию игр на Unity', date: '5 ноября 2026', excerpt: 'В эту субботу мастер Алексей проведёт открытый мастер-класс. Регистрация открыта.', emoji: '🎮' },
+];
+
+const today = new Date(2026, 10, 26); // 26 ноября 2026
+const workshops = [
+  { id: 'w1', title: 'Основы Scratch', date: '2026-11-20', time: '15:00', master: 'Алексей К.', masterId: 'm1', description: 'Первые шаги в программировании для начинающих.', status: 'past', students: [
+    { id: 's1', name: 'Маша Иванова', attended: true, stars: 3 },
+    { id: 's2', name: 'Петя Сидоров', attended: true, stars: 2 },
+    { id: 's3', name: 'Катя Петрова', attended: false, stars: 0 },
+  ]},
+  { id: 'w2', title: 'Роботы Lego SPIKE', date: '2026-11-24', time: '16:30', master: 'Ольга М.', masterId: 'm2', description: 'Собираем и программируем умных роботов.', status: 'past', students: [
+    { id: 's1', name: 'Маша Иванова', attended: true, stars: 3 },
+    { id: 's2', name: 'Петя Сидоров', attended: true, stars: 3 },
+  ]},
+  { id: 'w3', title: 'Создание игр на Unity', date: '2026-11-26', time: '17:00', master: 'Алексей К.', masterId: 'm1', description: 'Делаем свою первую 2D-игру.', status: 'current', students: [
+    { id: 's1', name: 'Маша Иванова', attended: false, stars: 0 },
+    { id: 's2', name: 'Петя Сидоров', attended: false, stars: 0 },
+    { id: 's4', name: 'Дима Козлов', attended: false, stars: 0 },
+    { id: 's5', name: 'Аня Смирнова', attended: false, stars: 0 },
+  ]},
+  { id: 'w4', title: '3D-моделирование в Blender', date: '2026-11-28', time: '14:00', master: 'Ольга М.', masterId: 'm2', description: 'Знакомство с 3D-графикой.', status: 'future', students: [
+    { id: 's1', name: 'Маша Иванова', attended: false, stars: 0 },
+    { id: 's3', name: 'Катя Петрова', attended: false, stars: 0 },
+  ]},
+  { id: 'w5', title: 'Веб-разработка: HTML/CSS', date: '2026-12-03', time: '16:00', master: 'Алексей К.', masterId: 'm1', description: 'Создаём свой первый сайт.', status: 'future', students: [
+    { id: 's2', name: 'Петя Сидоров', attended: false, stars: 0 },
+    { id: 's4', name: 'Дима Козлов', attended: false, stars: 0 },
+    { id: 's5', name: 'Аня Смирнова', attended: false, stars: 0 },
+  ]},
+  { id: 'w6', title: 'Хакатон «Будущее рядом»', date: '2026-12-10', time: '10:00', master: 'Алексей К.', masterId: 'm1', description: 'Большой хакатон для всех учеников клуба.', status: 'future', students: [] },
+];
+
+const shopItems = [
+  { id: 'p1', name: 'Игровая мышка RGB', price: 30, emoji: '🖱️', from: '#a78bfa', to: '#ec4899', desc: 'Яркая мышка с подсветкой' },
+  { id: 'p2', name: 'Наушники с ушками', price: 45, emoji: '🎧', from: '#f9a8d4', to: '#93c5fd', desc: 'Милые наушники для музыки' },
+  { id: 'p3', name: 'Робот-игрушка', price: 60, emoji: '🤖', from: '#60a5fa', to: '#f59e0b', desc: 'Заводной робот-друг' },
+  { id: 'p4', name: 'Рюкзак «Космос»', price: 50, emoji: '🎒', from: '#818cf8', to: '#34d399', desc: 'Вместительный рюкзак' },
+  { id: 'p5', name: 'Набор LEGO', price: 80, emoji: '🧱', from: '#f87171', to: '#fbbf24', desc: 'Конструктор 200 деталей' },
+  { id: 'p6', name: 'Фирменная футболка', price: 20, emoji: '👕', from: '#a78bfa', to: '#60a5fa', desc: 'Худи с логотипом клуба' },
+  { id: 'p7', name: 'Наклейки КодоКлуб', price: 5, emoji: '✨', from: '#fcd34d', to: '#f472b6', desc: 'Набор из 10 наклеек' },
+  { id: 'p8', name: 'Беспроводная колонка', price: 70, emoji: '🔊', from: '#34d399', to: '#8b5cf6', desc: 'Мини-колонка Bluetooth' },
+];
+
+const studentProfile = {
+  name: 'Маша Иванова',
+  age: 11,
+  avatar: '👧',
+  level: 'Продвинутый кодер',
+  joined: 'Сентябрь 2025',
+  myWorkshops: ['w1', 'w2', 'w3', 'w4'],
+};
+
+const masterProfile = {
+  name: 'Алексей Кузнецов',
+  role: 'Мастер программирования',
+  avatar: '👨‍🏫',
+  experience: '5 лет',
+  myWorkshops: ['w1', 'w3', 'w5', 'w6'],
+};
+
+// ============ HELPERS ============
+const $ = sel => document.querySelector(sel);
+const app = () => $('#app');
+const formatDate = d => {
+  const date = new Date(d);
+  return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+};
+const statusLabel = s => ({ past: 'Завершён', current: 'Сегодня', future: 'Скоро' }[s]);
+const statusColor = s => ({ past: 'bg-gray-100 text-gray-600', current: 'bg-emerald-100 text-emerald-700 pulse-dot', future: 'bg-purple-100 text-purple-700' }[s]);
+
+function save() {
+  localStorage.setItem('points', state.points);
+  localStorage.setItem('purchases', JSON.stringify(state.purchases));
+  localStorage.setItem('role', state.role);
+}
+
+// ============ ROUTER ============
+function navigate(page) {
+  state.currentPage = page;
+  location.hash = page;
+  render();
+}
+
+function getRoute() {
+  const hash = location.hash.replace('#', '') || '/';
+  return hash;
+}
+
+window.addEventListener('hashchange', render);
+
+// ============ RENDER HEADER ============
+function renderHeader() {
+  const nav = $('#nav-links');
+  const mobileNav = $('#mobile-menu');
+  const roleSwitcher = $('#role-switcher');
+
+  const links = [
+    { href: '/', label: 'Главная' },
+    { href: '/contacts', label: 'Контакты' },
+    ...(state.role !== 'guest' ? [{ href: '/profile', label: 'Кабинет' }] : []),
+    ...(state.role === 'student' ? [{ href: '/shop', label: 'Магазин' }] : []),
+  ];
+
+  nav.innerHTML = links.map(l =>
+    `<a href="#${l.href}" class="nav-link text-sm font-medium text-gray-700 hover:text-purple-600 ${state.currentPage === l.href ? 'active text-purple-600' : ''}">${l.label}</a>`
+  ).join('');
+
+  mobileNav.innerHTML = `<div class="flex flex-col gap-2">${links.map(l =>
+    `<a href="#${l.href}" class="px-3 py-2 rounded-lg hover:bg-purple-50 text-sm font-medium ${state.currentPage === l.href ? 'bg-purple-50 text-purple-600' : 'text-gray-700'}">${l.label}</a>`
+  ).join('')}</div>`;
+
+  const roles = [
+    { id: 'guest', label: 'Гость', emoji: '👤' },
+    { id: 'student', label: 'Ученик', emoji: '🎓' },
+    { id: 'master', label: 'Мастер', emoji: '🧙' },
+  ];
+  roleSwitcher.innerHTML = roles.map(r =>
+    `<button onclick="setRole('${r.id}')" class="role-chip px-3 py-1.5 rounded-full text-xs font-semibold ${state.role === r.id ? 'active' : 'text-gray-600 hover:text-purple-600'}" title="${r.label}">${r.emoji} <span class="hidden lg:inline">${r.label}</span></button>`
+  ).join('');
+
+  $('#mobile-menu-btn').onclick = () => mobileNav.classList.toggle('hidden');
+}
+
+window.setRole = (role) => {
+  state.role = role;
+  save();
+  // If on restricted page, redirect
+  const route = getRoute();
+  if (role === 'guest' && (route === '/profile' || route === '/shop')) navigate('/');
+  if (role === 'master' && route === '/shop') navigate('/profile');
+  render();
+};
+
+// ============ PAGES ============
+function pageHome() {
+  return `
+    <div class="fade-in">
+      <!-- Hero -->
+      <div class="relative overflow-hidden rounded-3xl gradient-bg text-white p-8 sm:p-12 mb-8">
+        <div class="absolute top-0 right-0 text-[200px] opacity-20 leading-none -mt-10 -mr-10">🚀</div>
+        <div class="relative max-w-2xl">
+          <div class="inline-block bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold mb-4">🎉 Набор на зимние курсы открыт</div>
+          <h1 class="text-3xl sm:text-5xl font-bold mb-4 leading-tight">Учим детей создавать <span class="text-yellow-300">будущее</span></h1>
+          <p class="text-white/90 mb-6 text-lg">Программирование, робототехника, 3D-моделирование и GameDev для ребят от 7 до 16 лет. Более 50 мастер-классов в месяц!</p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="location.hash='/contacts'" class="bg-white text-purple-700 px-6 py-3 rounded-xl font-semibold hover:shadow-xl transition">Записаться →</button>
+            <button onclick="location.hash='/'" class="bg-white/20 backdrop-blur border border-white/30 px-6 py-3 rounded-xl font-semibold hover:bg-white/30 transition">О клубе</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        ${[
+          { n: '500+', l: 'учеников', e: '🎓' },
+          { n: '50+', l: 'мастер-классов', e: '📚' },
+          { n: '12', l: 'мастеров', e: '🧙' },
+          { n: '8', l: 'лет опыта', e: '⭐' },
+        ].map(s => `
+          <div class="bg-white rounded-2xl p-5 card-hover border border-purple-50">
+            <div class="text-3xl mb-2">${s.e}</div>
+            <div class="text-2xl sm:text-3xl font-bold gradient-text">${s.n}</div>
+            <div class="text-sm text-gray-600">${s.l}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- News -->
+      <div class="flex items-end justify-between mb-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold">Новости клуба</h2>
+          <p class="text-gray-500 text-sm mt-1">Самое важное и интересное</p>
+        </div>
+        <a class="text-sm font-semibold text-purple-600 hover:text-purple-800 cursor-pointer">Все новости →</a>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5">
+        ${news.map(n => `
+          <article class="bg-white rounded-2xl p-6 card-hover border border-purple-50 flex gap-4">
+            <div class="text-5xl flex-shrink-0">${n.emoji}</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-2 flex-wrap">
+                <span class="badge ${n.tagColor}">${n.tag}</span>
+                <span class="text-xs text-gray-500">${n.date}</span>
+              </div>
+              <h3 class="font-bold text-lg mb-1.5 leading-snug">${n.title}</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">${n.excerpt}</p>
+              <a class="text-sm font-semibold text-purple-600 hover:text-purple-800 mt-2 inline-block cursor-pointer">Читать →</a>
+            </div>
+          </article>
+        `).join('')}
+      </div>
+
+      <!-- Upcoming -->
+      <div class="mt-10">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-5">Ближайшие мастер-классы</h2>
+        <div class="grid md:grid-cols-3 gap-5">
+          ${workshops.filter(w => w.status !== 'past').slice(0, 3).map(w => workshopCard(w)).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function workshopCard(w) {
+  return `
+    <div class="bg-white rounded-2xl p-5 card-hover border border-purple-50">
+      <div class="flex items-start justify-between mb-3">
+        <div class="text-4xl">${w.status === 'current' ? '🔥' : w.status === 'future' ? '📅' : '✅'}</div>
+        <span class="badge ${statusColor(w.status)}">${statusLabel(w.status)}</span>
+      </div>
+      <h3 class="font-bold text-lg mb-1">${w.title}</h3>
+      <p class="text-sm text-gray-600 mb-3 line-clamp-2">${w.description}</p>
+      <div class="flex items-center justify-between text-sm">
+        <div class="text-gray-500">📆 ${formatDate(w.date)}, ${w.time}</div>
+      </div>
+      <div class="text-xs text-gray-500 mt-2">🧙 ${w.master}</div>
+    </div>
+  `;
+}
+
+function pageContacts() {
+  return `
+    <div class="fade-in">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Контакты</h1>
+      <p class="text-gray-600 mb-8">Приходите в гости или свяжитесь с нами удобным способом</p>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl p-6 border border-purple-50">
+          <h2 class="text-xl font-bold mb-5">Как нас найти</h2>
+          <div class="space-y-4">
+            ${[
+              { e: '📍', t: 'Адрес', v: 'г. Москва, ул. Технологическая, 42, 2 этаж' },
+              { e: '📞', t: 'Телефон', v: '+7 (999) 123-45-67' },
+              { e: '✉️', t: 'Email', v: 'hello@kodoklub.ru' },
+              { e: '🕐', t: 'Часы работы', v: 'Пн–Вс: 10:00 – 21:00' },
+            ].map(i => `
+              <div class="flex gap-4 p-4 rounded-xl bg-purple-50/50">
+                <div class="text-2xl">${i.e}</div>
+                <div>
+                  <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide">${i.t}</div>
+                  <div class="font-medium mt-0.5">${i.v}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="mt-6 rounded-xl overflow-hidden bg-gradient-to-br from-purple-100 to-pink-100 h-48 flex items-center justify-center relative">
+            <div class="absolute inset-0 opacity-30" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(124,58,237,0.1) 20px, rgba(124,58,237,0.1) 21px), repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(124,58,237,0.1) 20px, rgba(124,58,237,0.1) 21px);"></div>
+            <div class="relative text-center">
+              <div class="text-5xl mb-2">📍</div>
+              <div class="font-semibold text-purple-900">ул. Технологическая, 42</div>
+              <div class="text-sm text-purple-700">м. Технопарк, 5 мин пешком</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-purple-50">
+          <h2 class="text-xl font-bold mb-5">Записаться на занятие</h2>
+          <form onsubmit="submitForm(event)" class="space-y-4">
+            <div>
+              <label class="text-sm font-semibold text-gray-700 mb-1.5 block">Имя ребёнка</label>
+              <input required type="text" class="w-full px-4 py-3 rounded-xl border border-purple-100 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition" placeholder="Например, Маша">
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-gray-700 mb-1.5 block">Возраст</label>
+              <input required type="number" min="6" max="17" class="w-full px-4 py-3 rounded-xl border border-purple-100 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition" placeholder="10">
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-gray-700 mb-1.5 block">Телефон родителя</label>
+              <input required type="tel" class="w-full px-4 py-3 rounded-xl border border-purple-100 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition" placeholder="+7 (___) ___-__-__">
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-gray-700 mb-1.5 block">Направление</label>
+              <select class="w-full px-4 py-3 rounded-xl border border-purple-100 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition bg-white">
+                <option>Программирование</option>
+                <option>Робототехника</option>
+                <option>3D-моделирование</option>
+                <option>GameDev</option>
+                <option>Ещё не определился</option>
+              </select>
+            </div>
+            <button type="submit" class="w-full gradient-bg text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">Отправить заявку</button>
+          </form>
+          <div id="form-success" class="hidden mt-4 p-4 bg-emerald-50 text-emerald-700 rounded-xl text-sm font-medium">✅ Заявка отправлена! Мы свяжемся с вами в течение часа.</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.submitForm = (e) => {
+  e.preventDefault();
+  $('#form-success').classList.remove('hidden');
+  e.target.reset();
+  setTimeout(() => $('#form-success').classList.add('hidden'), 4000);
+};
+
+// ============ STUDENT PROFILE ============
+function pageStudentProfile() {
+  const myWs = workshops.filter(w => studentProfile.myWorkshops.includes(w.id));
+  const history = workshops.filter(w => w.status === 'past' && studentProfile.myWorkshops.includes(w.id));
+  const upcoming = myWs.filter(w => w.status !== 'past');
+
+  return `
+    <div class="fade-in">
+      <!-- Profile header -->
+      <div class="bg-white rounded-3xl p-6 border border-purple-50 mb-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <div class="w-20 h-20 rounded-2xl gradient-bg flex items-center justify-center text-5xl">${studentProfile.avatar}</div>
+          <div class="flex-1">
+            <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Ученица</div>
+            <h1 class="text-2xl sm:text-3xl font-bold mt-1">${studentProfile.name}</h1>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span class="badge bg-purple-100 text-purple-700">🎂 ${studentProfile.age} лет</span>
+              <span class="badge bg-pink-100 text-pink-700">⭐ ${studentProfile.level}</span>
+              <span class="badge bg-amber-100 text-amber-700">📅 с ${studentProfile.joined}</span>
+            </div>
+          </div>
+          <div class="bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl p-4 text-center min-w-[140px]">
+            <div class="text-xs text-amber-700 font-semibold uppercase tracking-wide">Баланс</div>
+            <div class="text-3xl font-bold gradient-text mt-1">${state.points} ⭐</div>
+            <button onclick="location.hash='/shop'" class="text-xs font-semibold text-purple-600 mt-1 hover:text-purple-800">В магазин →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-5 overflow-x-auto scrollbar-hide">
+        ${[
+          { id: 'schedule', label: '📅 Расписание', active: true },
+          { id: 'history', label: '✅ История' },
+          { id: 'achievements', label: '🏆 Достижения' },
+        ].map(t => `
+          <button onclick="switchStudentTab('${t.id}')" id="tab-${t.id}" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition ${t.active ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-purple-50 border border-purple-100'}">${t.label}</button>
+        `).join('')}
+      </div>
+
+      <div id="student-tab-content">
+        ${renderStudentSchedule(upcoming, history)}
+      </div>
+    </div>
+  `;
+}
+
+function renderStudentSchedule(upcoming, history) {
+  if (upcoming.length === 0) return `<div class="bg-white rounded-2xl p-8 text-center border border-purple-50 text-gray-500">Нет предстоящих занятий</div>`;
+  return `
+    <div class="grid md:grid-cols-2 gap-4">
+      ${upcoming.map(w => `
+        <div class="bg-white rounded-2xl p-5 border border-purple-50 card-hover">
+          <div class="flex items-start justify-between mb-3">
+            <div class="text-3xl">${w.status === 'current' ? '🔥' : '📅'}</div>
+            <span class="badge ${statusColor(w.status)}">${statusLabel(w.status)}</span>
+          </div>
+          <h3 class="font-bold text-lg mb-1">${w.title}</h3>
+          <p class="text-sm text-gray-600 mb-3">${w.description}</p>
+          <div class="flex items-center justify-between text-sm">
+            <div class="text-gray-500">📆 ${formatDate(w.date)}, ${w.time}</div>
+            <div class="text-xs text-gray-500">🧙 ${w.master}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderStudentHistory() {
+  const history = workshops.filter(w => w.status === 'past' && studentProfile.myWorkshops.includes(w.id));
+  if (history.length === 0) return `<div class="bg-white rounded-2xl p-8 text-center border border-purple-50 text-gray-500">История пуста</div>`;
+  return `
+    <div class="bg-white rounded-2xl border border-purple-50 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-purple-50/50">
+          <tr>
+            <th class="text-left p-4 font-semibold">Мастер-класс</th>
+            <th class="text-left p-4 font-semibold hidden sm:table-cell">Дата</th>
+            <th class="text-center p-4 font-semibold">Присутствие</th>
+            <th class="text-center p-4 font-semibold">Баллы</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${history.map(w => {
+            const stu = w.students.find(s => s.id === 's1');
+            return `
+              <tr class="border-t border-purple-50 hover:bg-purple-50/30">
+                <td class="p-4 font-medium">${w.title}</td>
+                <td class="p-4 text-gray-600 hidden sm:table-cell">${formatDate(w.date)}</td>
+                <td class="p-4 text-center">${stu?.attended ? '<span class="text-emerald-600 font-bold">✓</span>' : '<span class="text-gray-400">—</span>'}</td>
+                <td class="p-4 text-center">${stu?.stars ? '⭐'.repeat(stu.stars) : '—'}</td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderStudentAchievements() {
+  const achievements = [
+    { e: '🎯', t: 'Первые шаги', d: 'Посетить первый МК', done: true },
+    { e: '🔥', t: 'На огне', d: '5 посещений подряд', done: true },
+    { e: '💻', t: 'Кодер', d: 'Пройти курс Scratch', done: true },
+    { e: '🏆', t: 'Чемпион', d: 'Набрать 100 баллов', done: false },
+    { e: '🤖', t: 'Роботехник', d: 'Собрать 10 роботов', done: false },
+    { e: '⭐', t: 'Звезда', d: 'Получить 3 звезды 10 раз', done: false },
+  ];
+  return `
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+      ${achievements.map(a => `
+        <div class="bg-white rounded-2xl p-5 border ${a.done ? 'border-purple-200' : 'border-gray-100 opacity-60'} card-hover">
+          <div class="text-4xl mb-2">${a.e}</div>
+          <div class="font-bold">${a.t}</div>
+          <div class="text-sm text-gray-600 mt-1">${a.d}</div>
+          ${a.done ? '<div class="mt-3 text-xs font-semibold text-emerald-600">✓ Получено</div>' : '<div class="mt-3 text-xs font-semibold text-gray-400">В процессе</div>'}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+window.switchStudentTab = (tab) => {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('bg-purple-600', 'text-white');
+    b.classList.add('bg-white', 'text-gray-700', 'border', 'border-purple-100');
+  });
+  const btn = $(`#tab-${tab}`);
+  btn.classList.add('bg-purple-600', 'text-white');
+  btn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-purple-100');
+
+  const content = $('#student-tab-content');
+  if (tab === 'schedule') {
+    const upcoming = workshops.filter(w => studentProfile.myWorkshops.includes(w.id) && w.status !== 'past');
+    content.innerHTML = renderStudentSchedule(upcoming);
+  } else if (tab === 'history') {
+    content.innerHTML = renderStudentHistory();
+  } else {
+    content.innerHTML = renderStudentAchievements();
+  }
+};
+
+// ============ MASTER PROFILE ============
+function pageMasterProfile() {
+  const myWs = workshops.filter(w => masterProfile.myWorkshops.includes(w.id));
+  const current = myWs.filter(w => w.status === 'current');
+  const past = myWs.filter(w => w.status === 'past');
+  const future = myWs.filter(w => w.status === 'future');
+
+  return `
+    <div class="fade-in">
+      <!-- Profile header -->
+      <div class="bg-white rounded-3xl p-6 border border-purple-50 mb-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <div class="w-20 h-20 rounded-2xl gradient-bg flex items-center justify-center text-5xl">${masterProfile.avatar}</div>
+          <div class="flex-1">
+            <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Мастер</div>
+            <h1 class="text-2xl sm:text-3xl font-bold mt-1">${masterProfile.name}</h1>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span class="badge bg-purple-100 text-purple-700">💼 ${masterProfile.role}</span>
+              <span class="badge bg-amber-100 text-amber-700">🏅 Опыт: ${masterProfile.experience}</span>
+              <span class="badge bg-emerald-100 text-emerald-700">📚 ${myWs.length} МК</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-4">
+          <div class="text-xs text-emerald-700 font-semibold uppercase">Сегодня</div>
+          <div class="text-3xl font-bold text-emerald-900 mt-1">${current.length}</div>
+          <div class="text-xs text-emerald-700">активных МК</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4">
+          <div class="text-xs text-purple-700 font-semibold uppercase">Запланировано</div>
+          <div class="text-3xl font-bold text-purple-900 mt-1">${future.length}</div>
+          <div class="text-xs text-purple-700">предстоящих</div>
+        </div>
+        <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl p-4">
+          <div class="text-xs text-pink-700 font-semibold uppercase">Проведено</div>
+          <div class="text-3xl font-bold text-pink-900 mt-1">${past.length}</div>
+          <div class="text-xs text-pink-700">в этом месяце</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-2 mb-5 overflow-x-auto scrollbar-hide">
+        ${[
+          { id: 'current', label: '🔥 Текущие', active: current.length > 0 },
+          { id: 'calendar', label: '📅 Календарь', active: current.length === 0 },
+          { id: 'future', label: '📆 Будущие' },
+          { id: 'past', label: '✅ Архив' },
+        ].map(t => `
+          <button onclick="switchMasterTab('${t.id}')" id="mtab-${t.id}" class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition ${t.active ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-purple-50 border border-purple-100'}">${t.label}</button>
+        `).join('')}
+      </div>
+
+      <div id="master-tab-content">
+        ${current.length > 0 ? renderMasterCurrent(current) : renderMasterCalendar()}
+      </div>
+    </div>
+  `;
+}
+
+function renderMasterCurrent(list) {
+  return `
+    <div class="space-y-4">
+      ${list.map(w => `
+        <div class="bg-white rounded-2xl border border-purple-50 overflow-hidden">
+          <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-purple-50/30" onclick="toggleWorkshop('${w.id}')">
+            <div class="flex items-center gap-4">
+              <div class="text-3xl">🔥</div>
+              <div>
+                <h3 class="font-bold text-lg">${w.title}</h3>
+                <div class="text-sm text-gray-600">📆 Сегодня, ${w.time} · 👥 ${w.students.length} учеников</div>
+              </div>
+            </div>
+            <svg id="chevron-${w.id}" class="w-6 h-6 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </div>
+          <div id="ws-${w.id}" class="hidden border-t border-purple-50">
+            ${renderWorkshopStudents(w)}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderWorkshopStudents(w) {
+  return `
+    <div class="p-5 space-y-3">
+      ${w.students.length === 0 ? '<div class="text-center text-gray-500 py-4">Ученики ещё не записались</div>' : ''}
+      ${w.students.map(s => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-purple-50/40 hover:bg-purple-50 transition">
+          <div class="flex items-center gap-3">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" ${s.attended ? 'checked' : ''} onchange="toggleAttendance('${w.id}', '${s.id}')" class="w-5 h-5 rounded accent-purple-600">
+              <span class="font-medium ${s.attended ? '' : 'text-gray-500'}">${s.name}</span>
+            </label>
+          </div>
+          <div class="flex items-center gap-1">
+            ${[1,2,3].map(n => `
+              <span onclick="setStars('${w.id}', '${s.id}', ${n})" class="star ${s.stars >= n ? 'active' : 'inactive'} text-2xl">★</span>
+            `).join('')}
+          </div>
+        </div>
+      `).join('')}
+      <div class="flex items-center justify-between pt-3 border-t border-purple-100">
+        <div class="text-sm text-gray-600">💡 Кликните по звезде, чтобы начислить 1, 2 или 3 балла ученику</div>
+        <button onclick="saveWorkshop('${w.id}')" class="gradient-bg text-white px-5 py-2 rounded-xl font-semibold text-sm hover:opacity-90">Сохранить</button>
+      </div>
+    </div>
+  `;
+}
+
+window.toggleWorkshop = (id) => {
+  const el = $(`#ws-${id}`);
+  const chev = $(`#chevron-${id}`);
+  el.classList.toggle('hidden');
+  chev.style.transform = el.classList.contains('hidden') ? '' : 'rotate(180deg)';
+};
+
+window.toggleAttendance = (wid, sid) => {
+  const w = workshops.find(x => x.id === wid);
+  const s = w.students.find(x => x.id === sid);
+  s.attended = !s.attended;
+  if (!s.attended) s.stars = 0;
+  $(`#ws-${wid}`).innerHTML = renderWorkshopStudents(w);
+};
+
+window.setStars = (wid, sid, n) => {
+  const w = workshops.find(x => x.id === wid);
+  const s = w.students.find(x => x.id === sid);
+  s.stars = s.stars === n ? 0 : n; // toggle off if same
+  $(`#ws-${wid}`).innerHTML = renderWorkshopStudents(w);
+};
+
+window.saveWorkshop = (wid) => {
+  const w = workshops.find(x => x.id === wid);
+  // Add points to state (demo)
+  let added = 0;
+  w.students.forEach(s => {
+    if (s.attended && s.stars > 0) added += s.stars;
+  });
+  showToast(`✅ Сохранено! Начислено ${added} баллов ученикам`);
+};
+
+function renderMasterCalendar() {
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const offset = (firstDay + 6) % 7; // Monday first
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthName = today.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
+
+  const myWs = workshops.filter(w => masterProfile.myWorkshops.includes(w.id));
+  const eventsByDay = {};
+  myWs.forEach(w => {
+    const d = new Date(w.date);
+    if (d.getMonth() === month && d.getFullYear() === year) {
+      const day = d.getDate();
+      if (!eventsByDay[day]) eventsByDay[day] = [];
+      eventsByDay[day].push(w);
+    }
+  });
+
+  let cells = '';
+  for (let i = 0; i < offset; i++) cells += '<div></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = d === today.getDate();
+    const events = eventsByDay[d];
+    const hasEvent = !!events;
+    cells += `
+      <div class="calendar-day rounded-xl p-2 ${hasEvent ? 'has-event' : ''} ${isToday ? 'today' : ''} cursor-pointer" ${hasEvent ? `onclick="showDayEvents(${d})"` : ''}>
+        <div class="text-sm font-semibold ${isToday ? 'text-purple-700' : ''}">${d}</div>
+        ${hasEvent ? `<div class="mt-1 text-[10px] text-purple-700 font-semibold truncate">${events.length} МК</div>` : ''}
+      </div>
+    `;
+  }
+
+  return `
+    <div class="bg-white rounded-2xl p-5 border border-purple-50">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-bold text-lg capitalize">${monthName}</h3>
+        <div class="flex gap-2 text-xs">
+          <span class="badge bg-purple-100 text-purple-700">● МК</span>
+          <span class="badge bg-emerald-100 text-emerald-700">● Сегодня</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-7 gap-1 mb-2 text-center text-xs font-semibold text-gray-500">
+        <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+      </div>
+      <div class="grid grid-cols-7 gap-1">
+        ${cells}
+      </div>
+      <div id="day-events" class="mt-5"></div>
+    </div>
+  `;
+}
+
+window.showDayEvents = (day) => {
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  const events = workshops.filter(w => w.date === dateStr && masterProfile.myWorkshops.includes(w.id));
+  const el = $('#day-events');
+  el.innerHTML = `
+    <div class="border-t border-purple-100 pt-4">
+      <div class="font-semibold mb-3">${day} ${today.toLocaleDateString('ru-RU', { month: 'long' })}</div>
+      <div class="space-y-2">
+        ${events.map(w => `
+          <div class="p-3 rounded-xl bg-purple-50/50 flex items-center justify-between">
+            <div>
+              <div class="font-semibold text-sm">${w.title}</div>
+              <div class="text-xs text-gray-600">${w.time} · ${w.students.length} учеников</div>
+            </div>
+            <span class="badge ${statusColor(w.status)}">${statusLabel(w.status)}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+};
+
+function renderMasterFuture() {
+  const list = workshops.filter(w => masterProfile.myWorkshops.includes(w.id) && w.status === 'future');
+  if (list.length === 0) return `<div class="bg-white rounded-2xl p-8 text-center border border-purple-50 text-gray-500">Нет запланированных МК</div>`;
+  return `
+    <div class="grid md:grid-cols-2 gap-4">
+      ${list.map(w => `
+        <div class="bg-white rounded-2xl p-5 border border-purple-50 card-hover">
+          <div class="flex items-start justify-between mb-3">
+            <div class="text-3xl">📅</div>
+            <span class="badge ${statusColor(w.status)}">${statusLabel(w.status)}</span>
+          </div>
+          <h3 class="font-bold text-lg mb-1">${w.title}</h3>
+          <p class="text-sm text-gray-600 mb-3">${w.description}</p>
+          <div class="flex items-center justify-between text-sm">
+            <div class="text-gray-500">📆 ${formatDate(w.date)}, ${w.time}</div>
+            <div class="text-xs text-gray-500">👥 ${w.students.length}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderMasterPast() {
+  const list = workshops.filter(w => masterProfile.myWorkshops.includes(w.id) && w.status === 'past');
+  if (list.length === 0) return `<div class="bg-white rounded-2xl p-8 text-center border border-purple-50 text-gray-500">Архив пуст</div>`;
+  return `
+    <div class="bg-white rounded-2xl border border-purple-50 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-purple-50/50">
+          <tr>
+            <th class="text-left p-4 font-semibold">Мастер-класс</th>
+            <th class="text-left p-4 font-semibold hidden sm:table-cell">Дата</th>
+            <th class="text-center p-4 font-semibold">Учеников</th>
+            <th class="text-center p-4 font-semibold">Присутствовали</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(w => {
+            const att = w.students.filter(s => s.attended).length;
+            return `
+              <tr class="border-t border-purple-50 hover:bg-purple-50/30">
+                <td class="p-4 font-medium">${w.title}</td>
+                <td class="p-4 text-gray-600 hidden sm:table-cell">${formatDate(w.date)}</td>
+                <td class="p-4 text-center">${w.students.length}</td>
+                <td class="p-4 text-center"><span class="text-emerald-600 font-semibold">${att}/${w.students.length}</span></td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+window.switchMasterTab = (tab) => {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('bg-purple-600', 'text-white');
+    b.classList.add('bg-white', 'text-gray-700', 'border', 'border-purple-100');
+  });
+  const btn = $(`#mtab-${tab}`);
+  btn.classList.add('bg-purple-600', 'text-white');
+  btn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-purple-100');
+
+  const content = $('#master-tab-content');
+  const myWs = workshops.filter(w => masterProfile.myWorkshops.includes(w.id));
+  if (tab === 'current') content.innerHTML = renderMasterCurrent(myWs.filter(w => w.status === 'current'));
+  else if (tab === 'calendar') content.innerHTML = renderMasterCalendar();
+  else if (tab === 'future') content.innerHTML = renderMasterFuture();
+  else if (tab === 'past') content.innerHTML = renderMasterPast();
+};
+
+// ============ SHOP ============
+function pageShop() {
+  return `
+    <div class="fade-in">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold">Магазин призов</h1>
+          <p class="text-gray-600 mt-1">Обменивай баллы на крутые подарки!</p>
+        </div>
+        <div class="bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl px-5 py-3 flex items-center gap-3">
+          <div class="text-3xl">⭐</div>
+          <div>
+            <div class="text-xs text-amber-700 font-semibold uppercase">Твой баланс</div>
+            <div class="text-2xl font-bold gradient-text">${state.points} баллов</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        ${shopItems.map(item => {
+          const owned = state.purchases.includes(item.id);
+          const canAfford = state.points >= item.price;
+          return `
+            <div class="bg-white rounded-2xl border border-purple-50 overflow-hidden card-hover">
+              <div class="shop-item-bg h-36 flex items-center justify-center text-6xl" style="--from:${item.from};--to:${item.to}">
+                ${item.emoji}
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold">${item.name}</h3>
+                <p class="text-xs text-gray-500 mt-1">${item.desc}</p>
+                <div class="flex items-center justify-between mt-3">
+                  <div class="font-bold gradient-text">${item.price} ⭐</div>
+                  ${owned
+                    ? `<span class="badge bg-emerald-100 text-emerald-700">✓ Получено</span>`
+                    : `<button onclick="buyItem('${item.id}')" ${!canAfford ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg text-xs font-semibold ${canAfford ? 'gradient-bg text-white hover:opacity-90' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}">${canAfford ? 'Купить' : 'Мало баллов'}</button>`
+                  }
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      ${state.purchases.length > 0 ? `
+        <div class="mt-10 bg-white rounded-2xl p-5 border border-purple-50">
+          <h3 class="font-bold text-lg mb-3">🎁 Мои покупки</h3>
+          <div class="flex flex-wrap gap-2">
+            ${state.purchases.map(id => {
+              const it = shopItems.find(x => x.id === id);
+              return `<div class="badge bg-purple-50 text-purple-700">${it.emoji} ${it.name}</div>`;
+            }).join('')}
+          </div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+window.buyItem = (id) => {
+  const item = shopItems.find(x => x.id === id);
+  if (state.points < item.price) return;
+  if (state.purchases.includes(id)) return;
+  state.points -= item.price;
+  state.purchases.push(id);
+  save();
+  showToast(`🎉 Ты получил «${item.name}»! Забери в клубе.`);
+  render();
+};
+
+// ============ TOAST ============
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-2xl z-50 fade-in text-sm font-medium max-w-md';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; }, 2500);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ============ MAIN RENDER ============
+function render() {
+  const route = getRoute();
+  state.currentPage = route;
+  renderHeader();
+
+  let content = '';
+  if (route === '/' || route === '') {
+    content = pageHome();
+  } else if (route === '/contacts') {
+    content = pageContacts();
+  } else if (route === '/profile') {
+    if (state.role === 'guest') {
+      content = guestProfilePrompt();
+    } else if (state.role === 'student') {
+      content = pageStudentProfile();
+    } else {
+      content = pageMasterProfile();
+    }
+  } else if (route === '/shop') {
+    if (state.role === 'student') {
+      content = pageShop();
+    } else {
+      content = `<div class="fade-in text-center py-20">
+        <div class="text-6xl mb-4">🔒</div>
+        <h2 class="text-2xl font-bold mb-2">Магазин доступен только ученикам</h2>
+        <p class="text-gray-600 mb-5">Зарабатывай баллы на мастер-классах и меняй их на призы!</p>
+        <button onclick="location.hash='/'" class="gradient-bg text-white px-6 py-3 rounded-xl font-semibold">На главную</button>
+      </div>`;
+    }
+  } else {
+    content = `<div class="text-center py-20"><div class="text-6xl mb-4">🤔</div><h2 class="text-2xl font-bold">Страница не найдена</h2><button onclick="location.hash='/'" class="mt-4 gradient-bg text-white px-6 py-3 rounded-xl font-semibold">На главную</button></div>`;
+  }
+
+  app().innerHTML = content;
+  window.scrollTo(0, 0);
+}
+
+function guestProfilePrompt() {
+  return `
+    <div class="fade-in text-center py-16">
+      <div class="w-24 h-24 rounded-3xl gradient-bg mx-auto flex items-center justify-center text-6xl mb-5">👤</div>
+      <h1 class="text-3xl font-bold mb-2">Личный кабинет</h1>
+      <p class="text-gray-600 mb-6 max-w-md mx-auto">Чтобы получить доступ к расписанию, истории посещений и магазину призов, войди как ученик или мастер.</p>
+      <div class="flex gap-3 justify-center flex-wrap">
+        <button onclick="setRole('student')" class="gradient-bg text-white px-6 py-3 rounded-xl font-semibold">🎓 Я ученик</button>
+        <button onclick="setRole('master')" class="bg-white border-2 border-purple-200 text-purple-700 px-6 py-3 rounded-xl font-semibold hover:bg-purple-50">🧙 Я мастер</button>
+      </div>
+    </div>
+  `;
+}
+
+// Init
+render();
+</script>
+</body>
+</html>

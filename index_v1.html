@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>РобоКод - Клуб робототехники и программирования</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --light-blue: #3b82f6;
+            --accent-orange: #f97316;
+            --dark-orange: #ea580c;
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .navbar-brand i {
+            color: var(--accent-orange);
+            margin-right: 0.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-orange) !important;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            color: white;
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+            opacity: 0.15;
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero .badge-years {
+            background: var(--accent-orange);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.25rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .btn-orange {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-orange:hover {
+            background: var(--dark-orange);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-orange);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        .program-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            height: 100%;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .program-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .program-card h3 {
+            color: var(--primary-blue);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .program-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .photo-section {
+            background: var(--bg-light);
+            padding: 5rem 0;
+        }
+
+        .photo-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .branches-section {
+            padding: 5rem 0;
+        }
+
+        .branch-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border-left: 5px solid var(--accent-orange);
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .branch-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .branch-card i {
+            font-size: 2.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        .branch-card h4 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            color: white;
+            padding: 5rem 0;
+        }
+
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            color: #1f2937;
+        }
+
+        .contact-form h3 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--light-blue);
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-submit {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 10px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--dark-orange);
+            color: white;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-robot"></i>
+                РобоКод
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#programs">Программы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#photos">Фото</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#branches">Филиалы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacts">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="badge-years">
+                        <i class="bi bi-trophy-fill"></i> Мы в деле уже 7 лет!
+                    </div>
+                    <h1>Клуб робототехники и программирования для детей</h1>
+                    <p class="lead mb-4">Обучаем детей от 6 до 16 лет современным технологиям через игру и творчество</p>
+                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#trialModal">
+                        <i class="bi bi-calendar-check"></i> Записаться на пробное занятие
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Программы обучения -->
+    <section id="programs" class="py-5">
+        <div class="container">
+            <h2 class="section-title">Чем мы занимаемся</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="bi bi-lego"></i>
+                        </div>
+                        <h3>LEGO WeDo</h3>
+                        <p>Первые шаги в робототехнике для малышей. Конструирование и простое программирование</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="bi bi-gear-wide-connected"></i>
+                        </div>
+                        <h3>LEGO Mindstorms</h3>
+                        <p>Продвинутая робототехника. Создание сложных роботов и алгоритмов</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="bi bi-box"></i>
+                        </div>
+                        <h3>3D моделирование в Blender</h3>
+                        <p>Создание трёхмерных моделей и анимации в профессиональном редакторе</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="bi bi-code-slash"></i>
+                        </div>
+                        <h3>Разработка на Python</h3>
+                        <p>Изучение одного из самых популярных языков программирования</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="bi bi-controller"></i>
+                        </div>
+                        <h3>Геймдизайн Roblox и Unity</h3>
+                        <p>Создание собственных игр и виртуальных миров</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="bi bi-puzzle-fill"></i>
+                        </div>
+                        <h3>Scratch для маленьких</h3>
+                        <p>Визуальное программирование для детей от 6 лет. Просто и увлекательно!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Фото -->
+    <section id="photos" class="photo-section">
+        <div class="container">
+            <h2 class="section-title">Наши ученики в деле</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="photo-card">
+                        <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/18d0dcee1-a379-4bab-813d-6b0e64ce87b5.png" alt="Дети работают с LEGO роботами">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="photo-card">
+                        <img src="https://image.qwenlm.ai/public_source/60737175-2876-4d02-bb43-f12ccf9331b9/19eeb83a2-f537-485c-9358-67ca39f054dd.png" alt="Дети программируют">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Филиалы -->
+    <section id="branches" class="branches-section">
+        <div class="container">
+            <h2 class="section-title">Наши филиалы</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Монино</h4>
+                        <p class="text-muted mb-0">ул. Генерала Лизюкова, 1</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Обухово</h4>
+                        <p class="text-muted mb-0">ул. Советская, 15</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Лукино-Варьино</h4>
+                        <p class="text-muted mb-0">ул. Центральная, 8</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="branch-card">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <h4>Лосино-Петровский</h4>
+                        <p class="text-muted mb-0">ул. Октябрьская, 22</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты и форма -->
+    <section id="contacts" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <h3>Свяжитесь с нами</h3>
+                        <div class="contact-item">
+                            <i class="bi bi-telephone-fill"></i>
+                            <div>
+                                <strong>Телефон</strong><br>
+                                +7 (495) 123-45-67
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-envelope-fill"></i>
+                            <div>
+                                <strong>Email</strong><br>
+                                info@robocode.ru
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="bi bi-clock-fill"></i>
+                            <div>
+                                <strong>Время работы</strong><br>
+                                Пн-Вс: 9:00 - 20:00
+                            </div>
+                        </div>
+                        <div class="social-links mt-4">
+                            <a href="#"><i class="bi bi-whatsapp"></i></a>
+                            <a href="#"><i class="bi bi-telegram"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                            <a href="#"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="contact-form">
+                        <h3>Форма обратной связи</h3>
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ваше имя</label>
+                                    <input type="text" class="form-control" placeholder="Иван Иванов" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Телефон</label>
+                                    <input type="tel" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="example@mail.ru" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Возраст ребёнка</label>
+                                <select class="form-control">
+                                    <option>6-7 лет</option>
+                                    <option>8-9 лет</option>
+                                    <option>10-11 лет</option>
+                                    <option>12-13 лет</option>
+                                    <option>14-16 лет</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Сообщение</label>
+                                <textarea class="form-control" rows="3" placeholder="Ваш вопрос или комментарий"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-submit">
+                                <i class="bi bi-send-fill"></i> Отправить сообщение
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="mb-0">&copy; 2026 РобоКод. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Модальное окно записи -->
+    <div class="modal fade" id="trialModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: var(--primary-blue); color: white;">
+                    <h5 class="modal-title">Запись на пробное занятие</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="trialForm">
+                        <div class="mb-3">
+                            <label class="form-label">Имя родителя</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Возраст ребёнка</label>
+                            <select class="form-control">
+                                <option>6-7 лет</option>
+                                <option>8-9 лет</option>
+                                <option>10-11 лет</option>
+                                <option>12-13 лет</option>
+                                <option>14-16 лет</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Филиал</label>
+                            <select class="form-control">
+                                <option>Монино</option>
+                                <option>Обухово</option>
+                                <option>Лукино-Варьино</option>
+                                <option>Лосино-Петровский</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100">Записаться</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Обработка формы обратной связи
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
+
+        // Обработка формы записи
+        document.getElementById('trialForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Отлично! Вы записаны на пробное занятие. Мы перезвоним вам для подтверждения.');
+            this.reset();
+            bootstrap.Modal.getInstance(document.getElementById('trialModal')).hide();
+        });
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
